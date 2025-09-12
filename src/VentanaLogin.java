@@ -90,11 +90,10 @@ public class VentanaLogin {
         String usuario = txtUsuario.getText().trim();
         String clave = new String(txtClave.getPassword());
 
-        if (usuario.isEmpty() || clave.isEmpty()) {
-            JOptionPane.showMessageDialog(frame,
-                    "Por favor, complete todos los campos.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+        if (!nombreUsuario.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "¡Bienvenido " + nombreUsuario + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+            frame.dispose();
+            new VentanaMenu(nombreUsuario).mostrarVentana(); // ← Cambio aquí
         }
 
         String nombreUsuario = validarCredenciales(usuario, clave);
@@ -129,6 +128,7 @@ public class VentanaLogin {
         new VentanaRegistro().mostrarVentana();
     }
 
+    //
     // Método main para pruebas independientes (Claude)
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

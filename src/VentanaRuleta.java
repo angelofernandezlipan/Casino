@@ -9,9 +9,7 @@ import java.util.Random;
  * Esta nueva clase se encarga de todos los eventos de usuario.
  */
 public class VentanaRuleta {
-    private static final int[] NUMEROS_ROJOS = {1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36};
-    private final Random rng = new Random();
-    private final String nombreJugador;
+    private final RuletaMotor motorRuleta = new RuletaMotor();
 
     // Historial del juego
     private final List<Integer> historialNumeros = new ArrayList<>();
@@ -178,8 +176,8 @@ public class VentanaRuleta {
 
             // Simular giro con delay
             Timer timer = new Timer(2000, e -> {
-                int numero = rng.nextInt(37); // 0 a 36
-                boolean acierto = evaluarApuesta(numero, tipoApuesta);
+                int numero = motorRuleta.girar();
+                boolean acierto = motorRuleta.evaluarApuesta(numero, tipoApuesta);
 
                 // Registrar resultado
                 historialNumeros.add(numero);
@@ -187,7 +185,7 @@ public class VentanaRuleta {
                 historialAciertos.add(acierto);
 
                 // Mostrar resultado
-                mostrarResultado(numero, tipoApuesta, monto, acierto);
+                motorRuleta.registrarJugada(numero, monto, acierto);
                 btnJugar.setEnabled(true);
             });
             timer.setRepeats(false);
@@ -227,7 +225,7 @@ public class VentanaRuleta {
      * Determina si un número es rojo.
      */
     private boolean esRojo(int numero) {
-        for (int numeroRojo : NUMEROS_ROJOS) {
+        for (int numeroRojo : RuletaMotor.NUMEROS_ROJOS) {
             if (numero == numeroRojo) return true;
         }
         return false;
@@ -269,22 +267,9 @@ public class VentanaRuleta {
      * Muestra las estadísticas del juego.
      */
     private void mostrarEstadisticas() {
-        if (historialNumeros.isEmpty()) {
-            JOptionPane.showMessageDialog(frame,
-                    "No hay estadísticas disponibles.\n¡Juega una ronda primero!",
-                    "Sin datos", JOptionPane.INFORMATION_MESSAGE);
+        if (motorRuleta.getTotalRondas() == 0) {
+            JOptionPane.showMessageDialog(frame, "No hay estadísticas disponibles.\n¡Juega una ronda primero!", "Sin datos", JOptionPane.INFORMATION_MESSAGE);
             return;
-        }
-
-        int totalRondas = historialNumeros.size();
-        int totalApostado = historialApuestas.stream().mapToInt(Integer::intValue).sum();
-        int aciertos = (int) historialAciertos.stream().mapToLong(b -> b ? 1 : 0).sum();
-        double porcentajeAcierto = (double) aciertos / totalRondas * 100;
-
-        int gananciaNeta = 0;
-        for (int i = 0; i < totalRondas; i++) {
-            int monto = historialApuestas.get(i);
-            gananciaNeta += historialAciertos.get(i) ? monto : -monto;
         }
 
         String estadisticas = String.format(
@@ -294,7 +279,12 @@ public class VentanaRuleta {
                         "Total aciertos: %d\n" +
                         "Porcentaje de acierto: %.2f%%\n" +
                         "Ganancia/Pérdida neta: $%d",
-                nombreJugador, totalRondas, totalApostado, aciertos, porcentajeAcierto, gananciaNeta
+                nombreJugador,
+                motorRuleta.getTotalRondas(),
+                motorRuleta.getTotalApostado(),
+                motorRuleta.getAciertos(),
+                motorRuleta.getPorcentajeAciertos(),
+                motorRuleta.getGananciaNeta()
         );
 
         JOptionPane.showMessageDialog(frame, estadisticas,
