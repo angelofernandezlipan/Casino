@@ -10,16 +10,10 @@ public class Ruleta {
     public static Random rng = new Random();
     public static int[] numerosRojos = {1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36};
 
-    /**
-     * Método principal: inicia el programa llamando al menú.
-     */
     public static void main(String[] args) {
         menu();
     }
 
-    /**
-     * Controla el flujo principal del programa mostrando un menú en consola.
-     */
     public static void menu() {
         Scanner in = new Scanner(System.in);
         int opcion;
@@ -33,9 +27,6 @@ public class Ruleta {
         in.close();
     }
 
-    /**
-     * Muestra en consola las opciones disponibles del menú.
-     */
     public static void mostrarMenu() {
         System.out.println("\n=== CASINO BLACK CAT - RULETA ===");
         System.out.println("1. Iniciar ronda de ruleta");
@@ -44,11 +35,6 @@ public class Ruleta {
         System.out.print("Selecciona una opción: ");
     }
 
-    /**
-     * Lee la opción elegida por el usuario desde teclado.
-     * @param in Scanner para entrada por consola.
-     * @return número de opción ingresado.
-     */
     public static int leerOpcion(Scanner in) {
         try {
             return in.nextInt();
@@ -58,11 +44,6 @@ public class Ruleta {
         }
     }
 
-    /**
-     * Ejecuta la acción correspondiente a la opción del menú.
-     * @param opcion opción elegida por el usuario.
-     * @param in Scanner para entrada por consola.
-     */
     public static void ejecutarOpcion(int opcion, Scanner in) {
         switch (opcion) {
             case 1:

@@ -9,7 +9,7 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    // Verifica si las credenciales coinciden
+    // Verificación de credenciales
     public boolean validarCredenciales(String u, String p) {
         return this.username.equals(u) && this.password.equals(p);
     }

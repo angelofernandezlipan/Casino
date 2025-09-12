@@ -5,10 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Clase que representa la ventana de Login del Casino Black Cat.
- * Permite ingresar credenciales para acceder al sistema.
- */
 public class VentanaLogin {
     // --- Lista dinámica de usuarios ---
     public static final List<Usuario> USUARIOS = new ArrayList<>();
@@ -37,13 +33,8 @@ public class VentanaLogin {
      */
     private void inicializarUsuarios() {
         USUARIOS.add(new Usuario("admin", "1234", "Don Donnie"));
-        USUARIOS.add(new Usuario("jugador1", "pass", "Juan Pérez"));
-        USUARIOS.add(new Usuario("test", "test", "Usuario de Prueba"));
     }
 
-    /**
-     * Configura la ventana y sus componentes.
-     */
     private void configurarVentana() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(350, 250);
@@ -80,9 +71,6 @@ public class VentanaLogin {
         frame.add(btnRegistrar, gbc);
     }
 
-    /**
-     * Configura los eventos de los botones.
-     */
     private void configurarEventos() {
         btnIngresar.addActionListener(e -> login());
         btnRegistrar.addActionListener(e -> abrirRegistro());
@@ -92,20 +80,12 @@ public class VentanaLogin {
         txtClave.addActionListener(e -> login());
     }
 
-    /**
-     * Muestra la ventana en pantalla.
-     * Debe centrarla y hacerla visible.
-     */
     public void mostrarVentana() {
         frame.setLocationRelativeTo(null); // Centrar ventana
         frame.setVisible(true);
         txtUsuario.requestFocus();
     }
 
-    /**
-     * Maneja el evento de login al presionar el botón.
-     * Debe validar credenciales y abrir la siguiente ventana o mostrar error.
-     */
     private void login() {
         String usuario = txtUsuario.getText().trim();
         String clave = new String(txtClave.getPassword());
@@ -135,13 +115,6 @@ public class VentanaLogin {
         }
     }
 
-    /**
-     * Valida las credenciales del usuario contra el arreglo hardcoded.
-     *
-     * @param u nombre de usuario ingresado
-     * @param p clave ingresada
-     * @return el nombre del usuario si es válido, o cadena vacía si no coincide
-     */
     private String validarCredenciales(String u, String p) {
         for (Usuario usuario : USUARIOS) {
             if (usuario.validarCredenciales(u, p)) {
@@ -151,16 +124,12 @@ public class VentanaLogin {
         return "";
     }
 
-    /**
-     * Abre la ventana de registro para crear un nuevo usuario.
-     * Debe cerrar la ventana actual e invocar a VentanaRegistro.
-     */
     private void abrirRegistro() {
         frame.dispose();
         new VentanaRegistro().mostrarVentana();
     }
 
-    // Método main para pruebas independientes
+    // Método main para pruebas independientes (Claude)
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new VentanaLogin().mostrarVentana();
