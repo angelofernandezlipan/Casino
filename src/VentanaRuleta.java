@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * Ventana principal del juego de ruleta con interfaz gráfica.
- * Permite jugar a la ruleta y ver estadísticas.
+ * Esta nueva clase se encarga de todos los eventos de usuario.
  */
 public class VentanaRuleta {
     private static final int[] NUMEROS_ROJOS = {1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36};

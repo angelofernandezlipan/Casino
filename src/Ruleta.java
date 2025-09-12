@@ -1,6 +1,10 @@
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * ESTA CLASE ES LA RULETA QUE FUNCIONA POR TERMINAL
+ */
+
 public class Ruleta {
     public static final int MAX_HISTORIAL = 100;
     public static int[] historialNumeros = new int[MAX_HISTORIAL];
@@ -28,7 +32,7 @@ public class Ruleta {
     }
 
     public static void mostrarMenu() {
-        System.out.println("\n=== CASINO BLACK CAT - RULETA ===");
+        System.out.println("\nCASINO BLACK CAT - RULETA");
         System.out.println("1. Iniciar ronda de ruleta");
         System.out.println("2. Ver estadísticas");
         System.out.println("3. Salir");
@@ -53,7 +57,7 @@ public class Ruleta {
                 mostrarEstadisticas();
                 break;
             case 3:
-                System.out.println("¡Gracias por jugar en Casino Black Cat!");
+                System.out.println("¡Gracias por jugar!");
                 break;
             default:
                 System.out.println("Opción inválida. Intenta nuevamente.");
@@ -154,13 +158,6 @@ public class Ruleta {
         }
     }
 
-    /**
-     * Muestra en consola el resultado de la ronda.
-     * @param numero número obtenido en la ruleta.
-     * @param tipo tipo de apuesta realizada.
-     * @param monto monto apostado.
-     * @param acierto si el jugador ganó o perdió.
-     */
     public static void mostrarResultado(int numero, char tipo, int monto, boolean acierto) {
         String color = esRojo(numero) ? "ROJO" : (numero == 0 ? "VERDE" : "NEGRO");
         String paridad = numero == 0 ? "CERO" : (numero % 2 == 0 ? "PAR" : "IMPAR");
