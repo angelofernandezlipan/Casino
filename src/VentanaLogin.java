@@ -90,10 +90,10 @@ public class VentanaLogin {
         String usuario = txtUsuario.getText().trim();
         String clave = new String(txtClave.getPassword());
 
-        if (!nombreUsuario.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "¡Bienvenido " + nombreUsuario + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+        if (!usuario.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "¡Bienvenido " + usuario + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            new VentanaMenu(nombreUsuario).mostrarVentana(); // ← Cambio aquí
+            new VentanaMenu(usuario).mostrarVentana(); // ← Cambio aquí
         }
 
         String nombreUsuario = validarCredenciales(usuario, clave);

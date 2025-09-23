@@ -73,7 +73,7 @@ public class Ruleta {
         System.out.print("Ingresa el monto de la apuesta: $");
         int monto = in.nextInt();
 
-        int numero = girarRuleta();
+        int numero = girar();
         boolean acierto = evaluarResultado(numero, tipoApuesta);
 
         registrarResultado(numero, monto, acierto);
@@ -98,7 +98,7 @@ public class Ruleta {
      * Simula el giro de la ruleta generando un número aleatorio de 0 a 36.
      * @return número de la ruleta.
      */
-    public static int girarRuleta() {
+    public static int girar() {
         System.out.println("Girando la ruleta...");
         try {
             Thread.sleep(1000); // Pausa dramática

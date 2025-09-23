@@ -7,7 +7,7 @@ import java.util.Random;
  */
 
 public class RuletaMotor {
-    private static final int[] NUMEROS_ROJOS = {1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36};
+    protected static final int[] NUMEROS_ROJOS = {1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36};
     private final Random rng = new Random();
 
     private final List<Integer> historialNumeros = new ArrayList<>();

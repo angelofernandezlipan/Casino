@@ -24,6 +24,7 @@ public class VentanaRuleta {
     private final JRadioButton rbRojo, rbNegro, rbPar, rbImpar;
     private final JTextField txtMonto;
     private final JButton btnJugar, btnEstadisticas, btnSalir;
+    private final String nombreJugador;
 
     /**
      * Constructor de la ventana de ruleta.
