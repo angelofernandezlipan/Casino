@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,69 +11,65 @@ public class VentanaLogin extends JFrame {
 
     public VentanaLogin() {
         super("Login - Casino Black Cat");
-
-        // Hardcodeamos usuarios para el prototipo
         usuarios.add(new Usuario("donnie", "1234", "Donnie"));
         usuarios.add(new Usuario("admin", "admin", "Administrador"));
 
         initComponents();
         setupLayout();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void initComponents() {
-        JLabel lblUsuario = new JLabel("Usuario:");
-        JLabel lblClave = new JLabel("Clave:");
-        txtUsuario = new JTextField();
-        txtClave = new JPasswordField();
+        txtUsuario = new JTextField(15);
+        txtClave = new JPasswordField(15);
         JButton btnIngresar = new JButton("Ingresar");
         JButton btnRegistrar = new JButton("Registrar");
 
-        btnIngresar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                login();
-            }
-        });
-
-        btnRegistrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirRegistro();
-            }
-        });
-
-        // TODO: Agregar el resto de componentes y configurar el layout
+        btnIngresar.addActionListener(e -> login());
+        btnRegistrar.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de registro en desarrollo."));
     }
 
     private void setupLayout() {
-        // TODO: Configurar el layout de la ventana
+        setLayout(new BorderLayout(10, 10));
+
+        JPanel panelForm = new JPanel(new GridLayout(2, 2, 5, 5));
+        panelForm.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
+        panelForm.add(new JLabel("Usuario:"));
+        panelForm.add(txtUsuario);
+        panelForm.add(new JLabel("Clave:"));
+        panelForm.add(txtClave);
+
+        JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        panelBotones.add(new JButton("Registrar"));
+        panelBotones.add(new JButton("Ingresar"));
+
+        add(panelForm, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
     }
 
     private void login() {
         String user = txtUsuario.getText();
         String pass = new String(txtClave.getPassword());
 
-        String nombreUsuario = validarCredenciales(user, pass);
-        if (!nombreUsuario.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Bienvenido, " + nombreUsuario + "!");
-            // TODO: Crear e instanciar VentanaMenu
-            dispose(); // Cierra la ventana actual
+        Usuario usuarioLogeado = validarCredenciales(user, pass);
+        if (usuarioLogeado != null) {
+            JOptionPane.showMessageDialog(this, "Bienvenido, " + usuarioLogeado.getNombre() + "!");
+            new VentanaMenu(usuarioLogeado.getNombre());
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private String validarCredenciales(String u, String p) {
+    private Usuario validarCredenciales(String u, String p) {
         for (Usuario usuario : usuarios) {
             if (usuario.validarCredenciales(u, p)) {
-                return usuario.getNombre();
+                return usuario;
             }
         }
-        return "";
-    }
-
-    private void abrirRegistro() {
-        // TODO: Implementar la ventana de registro
+        return null;
     }
 }

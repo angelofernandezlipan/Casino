@@ -58,7 +58,6 @@ public class VentanaJuego extends JFrame {
 
     private void jugarRonda() {
         try {
-            // 1. Convertir el texto a un entero.
             int monto = Integer.parseInt(txtMonto.getText());
             String tipoApuesta = (String) cmbTipoApuesta.getSelectedItem();
 
@@ -67,7 +66,6 @@ public class VentanaJuego extends JFrame {
                 return;
             }
 
-            // 2. Llamar a la lógica del juego con el monto y tipo de apuesta ya convertidos.
             int numeroGirado = ruleta.girarRuleta();
             boolean acierto = ruleta.evaluarResultado(numeroGirado, tipoApuesta);
 
@@ -83,8 +81,7 @@ public class VentanaJuego extends JFrame {
             ruleta.registrarResultado(numeroGirado, tipoApuesta, acierto);
 
         } catch (NumberFormatException e) {
-            // 3. Manejar el error si el usuario ingresa texto en lugar de un número.
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un monto válido (solo números).");
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa un monto válido.");
         }
     }
 }
