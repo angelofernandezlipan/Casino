@@ -58,14 +58,17 @@ public class VentanaJuego extends JFrame {
 
     private void jugarRonda() {
         try {
+            // 1. Obtener el texto del campo y convertirlo a un entero
             int monto = Integer.parseInt(txtMonto.getText());
             String tipoApuesta = (String) cmbTipoApuesta.getSelectedItem();
 
+            // 2. Validar que el monto sea válido
             if (monto <= 0 || monto > saldo) {
                 JOptionPane.showMessageDialog(this, "Monto inválido o insuficiente.");
                 return;
             }
 
+            // 3. Llamar a la lógica del juego con el monto ya convertido
             int numeroGirado = ruleta.girarRuleta();
             boolean acierto = ruleta.evaluarResultado(numeroGirado, tipoApuesta);
 
@@ -81,7 +84,8 @@ public class VentanaJuego extends JFrame {
             ruleta.registrarResultado(numeroGirado, tipoApuesta, acierto);
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese un monto válido.");
+            // 4. Capturar el error si el usuario no ingresa un número
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa un monto válido (solo números).");
         }
     }
 }

@@ -27,14 +27,23 @@ public class Ruleta {
      * @param tipo El tipo de apuesta ('R' para rojo, 'N' para negro, 'P' para par, 'I' para impar).
      * @return true si acertó, false si perdió.
      */
-    public boolean evaluarResultado(int numero, char tipo) {
-        if (tipo == 'R') return esRojo(numero);
-        if (tipo == 'N') return !esRojo(numero);
-        if (tipo == 'P') return numero % 2 == 0 && numero != 0;
-        if (tipo == 'I') return numero % 2 != 0;
-        return false;
-    }
+    public boolean evaluarResultado(int numero, String tipoApuesta) {
+        if (numero == 0) return false;
 
+        switch (tipoApuesta.toLowerCase()) {
+            case "rojo":
+                return numerosRojos.contains(numero);
+            case "negro":
+                // Assuming you have a way to check for black numbers
+                return !numerosRojos.contains(numero) && numero != 0;
+            case "par":
+                return numero % 2 == 0;
+            case "impar":
+                return numero % 2 != 0;
+            default:
+                return false;
+        }
+    }
     /**
      * Determina si un número es rojo.
      * @param n El número de la ruleta.
