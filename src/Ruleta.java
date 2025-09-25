@@ -1,18 +1,24 @@
 import java.util.Random;
 import java.util.Arrays;
+import java.util.List;
 
 public class Ruleta {
-    // Uso de final para constantes
-    public static final int MAX_HISTORIAL = 100;
-    private final int[] numerosRojos = {1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36};
-    private final Random rng = new Random();
+    // ... (resto de atributos)
+    private final List<Integer> numerosRojos = Arrays.asList(1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36);
+    // ... (resto de código)
 
-    // Arrays para el historial
-    private int[] historialNumeros = new int[MAX_HISTORIAL];
-    private int[] historialApuestas = new int[MAX_HISTORIAL];
-    private boolean[] historialAciertos = new boolean[MAX_HISTORIAL];
-    private int historialSize = 0;
+    public boolean evaluarResultado(int numero, String tipoApuesta) {
+        if (numero == 0) return false;
 
+        return switch (tipoApuesta) {
+            case "Rojo" -> numerosRojos.contains(numero);
+            case "Negro" -> !numerosRojos.contains(numero);
+            case "Par" -> numero % 2 == 0;
+            case "Impar" -> numero % 2 != 0;
+            default -> false;
+        };
+    }
+    // ... (resto de métodos)
     /**
      * Simula el giro de la ruleta generando un número aleatorio de 0 a 36.
      * @return El número de la ruleta.
@@ -27,23 +33,7 @@ public class Ruleta {
      * @param tipo El tipo de apuesta ('R' para rojo, 'N' para negro, 'P' para par, 'I' para impar).
      * @return true si acertó, false si perdió.
      */
-    public boolean evaluarResultado(int numero, String tipoApuesta) {
-        if (numero == 0) return false;
 
-        switch (tipoApuesta.toLowerCase()) {
-            case "rojo":
-                return numerosRojos.contains(numero);
-            case "negro":
-                // Assuming you have a way to check for black numbers
-                return !numerosRojos.contains(numero) && numero != 0;
-            case "par":
-                return numero % 2 == 0;
-            case "impar":
-                return numero % 2 != 0;
-            default:
-                return false;
-        }
-    }
     /**
      * Determina si un número es rojo.
      * @param n El número de la ruleta.
