@@ -1,41 +1,32 @@
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class VentanaMenu {
-    private final JFrame frame = new JFrame("Menú - Casino Black Cat");
-    private final String nombreJugador;
+public class VentanaMenu extends JFrame {
 
-    public VentanaMenu(String nombreJugador) {
-        this.nombreJugador = nombreJugador;
-        configurarVentana();
-    }
+    public VentanaMenu() {
+        super("Menú Principal - Casino Black Cat");
 
-    private void configurarVentana() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
-        frame.setLayout(new GridLayout(3, 1));
-
-        JLabel lblBienvenida = new JLabel("Bienvenido: " + nombreJugador, SwingConstants.CENTER);
-        JButton btnRuleta = new JButton("Jugar Ruleta");
+        JButton btnJugar = new JButton("Jugar Ruleta");
+        JButton btnHistorial = new JButton("Historial");
         JButton btnSalir = new JButton("Cerrar Sesión");
 
-        btnRuleta.addActionListener(e -> {
-            frame.dispose();
-            new VentanaRuleta(nombreJugador).mostrarVentana();
+        btnJugar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Abrir la ventana de la ruleta
+            }
         });
 
-        btnSalir.addActionListener(e -> {
-            frame.dispose();
-            new VentanaLogin().mostrarVentana();
+        btnSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Cierra esta ventana
+                new VentanaLogin(); // Regresa a la ventana de login
+            }
         });
 
-        frame.add(lblBienvenida);
-        frame.add(btnRuleta);
-        frame.add(btnSalir);
-    }
-
-    public void mostrarVentana() {
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        // TODO: Configurar layout y agregar componentes
+        setVisible(true);
     }
 }
