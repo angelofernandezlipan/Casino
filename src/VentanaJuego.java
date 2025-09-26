@@ -11,6 +11,7 @@ public class VentanaJuego extends JFrame {
     private JComboBox<String> cmbTipoApuesta;
     private JLabel lblSaldo;
     private JLabel lblResultado;
+    private JButton btnGirar; // <-- Se declara como atributo de la clase
 
     public VentanaJuego(String nombreJugador) {
         super("Ruleta - Casino Black Cat");
@@ -30,9 +31,9 @@ public class VentanaJuego extends JFrame {
         cmbTipoApuesta = new JComboBox<>(new String[]{"Rojo", "Negro", "Par", "Impar"});
         lblSaldo = new JLabel("Saldo: $" + saldo, SwingConstants.CENTER);
         lblResultado = new JLabel("Listo para jugar!", SwingConstants.CENTER);
-        JButton btnGirar = new JButton("Girar");
+        btnGirar = new JButton("Girar"); // <-- Se inicializa aquí
 
-        btnGirar.addActionListener(e -> jugarRonda());
+        btnGirar.addActionListener(e -> jugarRonda()); // <-- Se le asigna la acción
     }
 
     private void setupLayout() {
@@ -50,7 +51,7 @@ public class VentanaJuego extends JFrame {
         panelResultados.add(lblResultado);
 
         panelPrincipal.add(panelInputs, BorderLayout.NORTH);
-        panelPrincipal.add(new JButton("Girar"), BorderLayout.CENTER);
+        panelPrincipal.add(btnGirar, BorderLayout.CENTER); // <-- ¡Se agrega la variable!
         panelPrincipal.add(panelResultados, BorderLayout.SOUTH);
 
         add(panelPrincipal);
