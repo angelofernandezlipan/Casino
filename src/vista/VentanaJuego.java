@@ -61,34 +61,45 @@ public class VentanaJuego extends JFrame {
         add(panelPrincipal);
     }
 
+    // Dentro de VentanaJuego.java
+
     private void jugarRonda() {
+
+        int monto = 0;
+        String tipoApuestaString = "";
+        TipoApuesta tipoApuestaEnum = null;
+
         try {
-            int monto = Integer.parseInt(txtMonto.getText());
-            String tipoApuesta = (String) cmbTipoApuesta.getSelectedItem();
-            TipoApuesta tipoApuestaEnum = TipoApuesta.valueOf(tipoApuestaString.toUpperCase());
-
-
-            if (monto <= 0 || monto > saldo) {
-                JOptionPane.showMessageDialog(this, "Monto inválido o insuficiente.");
-                return;
-            }
-
-            int numeroGirado = ruleta.girarRuleta();
-            boolean acierto = ruleta.evaluarResultado(numeroGirado, tipoApuestaEnum);
-
-            if (acierto) {
-                saldo += monto;
-                lblResultado.setText("¡GANASTE! Número: " + numeroGirado + ". Saldo: $" + saldo);
-            } else {
-                saldo -= monto;
-                lblResultado.setText("PERDISTE. Número: " + numeroGirado + ". Saldo: $" + saldo);
-            }
-
-            lblSaldo.setText("Saldo: $" + saldo);
-            ruleta.registrarResultado(numeroGirado, tipoApuesta, acierto);
+            monto = Integer.parseInt(txtMonto.getText());
+            tipoApuestaString = (String) cmbTipoApuesta.getSelectedItem();
+            tipoApuestaEnum = TipoApuesta.valueOf(tipoApuestaString.toUpperCase());
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un monto válido.");
+
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa un monto válido (solo números).");
+            return;
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "Error en el tipo de apuesta seleccionada.");
+            return;
         }
+
+        if (monto <= 0 || monto > saldo) {
+            JOptionPane.showMessageDialog(this, "Monto inválido o insuficiente.");
+            return;
+        }
+
+        int numeroGirado = ruleta.girarRuleta();
+        boolean acierto = ruleta.evaluarResultado(numeroGirado, tipoApuestaEnum); // <-- Ahora tipoApuestaEnum funciona
+
+        if (acierto) {
+            saldo += monto;
+            lblResultado.setText("¡GANASTE! Número: " + numeroGirado + ". Saldo: $" + saldo);
+        } else {
+            saldo -= monto;
+            lblResultado.setText("PERDISTE. Número: " + numeroGirado + ". Saldo: $" + saldo);
+        }
+
+        lblSaldo.setText("Saldo: $" + saldo);
+        ruleta.registrarResultado(numeroGirado, tipoApuestaString, acierto);
     }
 }
