@@ -1,22 +1,19 @@
 package vista;
 
+import controlador.SessionController;
+import modelo.Usuario;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class VentanaLogin extends JFrame {
 
-    private final List<Usuario> usuarios = new ArrayList<>();
     private JTextField txtUsuario;
     private JPasswordField txtClave;
-    private JButton btnIngresar; // <--- Declaración como atributo de la clase
-    private JButton btnRegistrar; // <--- Declaración como atributo de la clase
+    private JButton btnIngresar;
+    private JButton btnRegistrar;
 
     public VentanaLogin() {
         super("Login - Casino Black Cat");
-        usuarios.add(new Usuario("donnie", "1234", "Donnie"));
-        usuarios.add(new Usuario("admin", "admin", "Administrador"));
 
         initComponents();
         setupLayout();
@@ -47,8 +44,8 @@ public class VentanaLogin extends JFrame {
         panelForm.add(txtClave);
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        panelBotones.add(btnRegistrar); // <-- Se agrega la variable
-        panelBotones.add(btnIngresar);  // <-- Se agrega la variable
+        panelBotones.add(btnRegistrar);
+        panelBotones.add(btnIngresar);
 
         add(panelForm, BorderLayout.CENTER);
         add(panelBotones, BorderLayout.SOUTH);
@@ -58,7 +55,9 @@ public class VentanaLogin extends JFrame {
         String user = txtUsuario.getText();
         String pass = new String(txtClave.getPassword());
 
-        Usuario usuarioLogeado = validarCredenciales(user, pass);
+        SessionController controller = SessionController.getInstance();
+        Usuario usuarioLogeado = controller.iniciarSesion(user, pass);
+
         if (usuarioLogeado != null) {
             JOptionPane.showMessageDialog(this, "Bienvenido, " + usuarioLogeado.getNombre() + "!");
             new VentanaMenu(usuarioLogeado.getNombre());
@@ -66,14 +65,5 @@ public class VentanaLogin extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    private Usuario validarCredenciales(String u, String p) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.validarCredenciales(u, p)) {
-                return usuario;
-            }
-        }
-        return null;
     }
 }

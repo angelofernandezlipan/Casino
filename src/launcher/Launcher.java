@@ -1,4 +1,6 @@
 package launcher;
+
+import vista.VentanaLogin;
 import javax.swing.*;
 
 public class Launcher {
