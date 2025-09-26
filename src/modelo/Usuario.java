@@ -18,4 +18,8 @@ public class Usuario {
     public String getNombre() {
         return nombre;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

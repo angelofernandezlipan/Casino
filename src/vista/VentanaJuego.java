@@ -1,5 +1,7 @@
 package vista;
 
+import modelo.Ruleta;
+import modelo.TipoApuesta;
 import javax.swing.*;
 import java.awt.*;
 
@@ -63,6 +65,8 @@ public class VentanaJuego extends JFrame {
         try {
             int monto = Integer.parseInt(txtMonto.getText());
             String tipoApuesta = (String) cmbTipoApuesta.getSelectedItem();
+            TipoApuesta tipoApuestaEnum = TipoApuesta.valueOf(tipoApuestaString.toUpperCase());
+
 
             if (monto <= 0 || monto > saldo) {
                 JOptionPane.showMessageDialog(this, "Monto inválido o insuficiente.");
@@ -70,7 +74,7 @@ public class VentanaJuego extends JFrame {
             }
 
             int numeroGirado = ruleta.girarRuleta();
-            boolean acierto = ruleta.evaluarResultado(numeroGirado, tipoApuesta);
+            boolean acierto = ruleta.evaluarResultado(numeroGirado, tipoApuestaEnum);
 
             if (acierto) {
                 saldo += monto;
