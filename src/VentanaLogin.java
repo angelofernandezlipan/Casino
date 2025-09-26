@@ -8,6 +8,8 @@ public class VentanaLogin extends JFrame {
     private final List<Usuario> usuarios = new ArrayList<>();
     private JTextField txtUsuario;
     private JPasswordField txtClave;
+    private JButton btnIngresar; // <--- Declaración como atributo de la clase
+    private JButton btnRegistrar; // <--- Declaración como atributo de la clase
 
     public VentanaLogin() {
         super("Login - Casino Black Cat");
@@ -25,8 +27,8 @@ public class VentanaLogin extends JFrame {
     private void initComponents() {
         txtUsuario = new JTextField(15);
         txtClave = new JPasswordField(15);
-        JButton btnIngresar = new JButton("Ingresar");
-        JButton btnRegistrar = new JButton("Registrar");
+        btnIngresar = new JButton("Ingresar");
+        btnRegistrar = new JButton("Registrar");
 
         btnIngresar.addActionListener(e -> login());
         btnRegistrar.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de registro en desarrollo."));
@@ -43,8 +45,8 @@ public class VentanaLogin extends JFrame {
         panelForm.add(txtClave);
 
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        panelBotones.add(new JButton("Registrar"));
-        panelBotones.add(new JButton("Ingresar"));
+        panelBotones.add(btnRegistrar); // <-- Se agrega la variable
+        panelBotones.add(btnIngresar);  // <-- Se agrega la variable
 
         add(panelForm, BorderLayout.CENTER);
         add(panelBotones, BorderLayout.SOUTH);
