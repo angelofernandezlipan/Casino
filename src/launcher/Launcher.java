@@ -1,3 +1,4 @@
+package launcher;
 import javax.swing.*;
 
 public class Launcher {
