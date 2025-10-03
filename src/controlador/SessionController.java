@@ -11,6 +11,8 @@ public class SessionController {
 
     private static final SessionController INSTANCE = new SessionController();
 
+    // Idealmente, cargar usuarios desde una base de datos o archivo (para después)
+
     private SessionController() {
         usuarios.add(new Usuario("donnie", "1234", "Donnie"));
         usuarios.add(new Usuario("admin", "admin", "Administrador"));
