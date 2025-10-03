@@ -33,7 +33,7 @@ public class VentanaMenu extends JFrame {
 
         btnJugar.addActionListener(e -> new VentanaJuego(nombreUsuario));
 
-        btnHistorial.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de historial en desarrollo."));
+        btnHistorial.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de historial en desarrollo.")); // ESTO SE VA A IR PERO NO SE COMO TODAVI
 
         btnSalir.addActionListener(e -> {
             dispose();

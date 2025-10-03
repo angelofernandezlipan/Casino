@@ -6,14 +6,8 @@ import java.util.List;
 
 public class Ruleta {
 
-    public static final int MAX_HISTORIAL = 100;
     private final List<Integer> numerosRojos = Arrays.asList(1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36);
     private final Random rng = new Random();
-
-    private int[] historialNumeros = new int[MAX_HISTORIAL];
-    private String[] historialApuestas = new String[MAX_HISTORIAL];
-    private boolean[] historialAciertos = new boolean[MAX_HISTORIAL];
-    private int historialSize = 0;
 
     public int girarRuleta() {
         return rng.nextInt(37); // Números de 0 a 36
@@ -31,24 +25,9 @@ public class Ruleta {
         };
     }
 
-    public void registrarResultado(int numero, String tipoApuesta, boolean acierto) {
-        if (historialSize < MAX_HISTORIAL) {
-            historialNumeros[historialSize] = numero;
-            historialApuestas[historialSize] = tipoApuesta;
-            historialAciertos[historialSize] = acierto;
-            historialSize++;
-        }
-    }
-
     // Getters (historial próximamente a desarrollar)
 
-    public int getHistorialSize() {
-        return historialSize;
-    }
-
-    public int[] getHistorialNumeros() {
-        return historialNumeros;
-    }
+    // Esto se fue en la versión 5
 
     // ¿Más getters?
 }
