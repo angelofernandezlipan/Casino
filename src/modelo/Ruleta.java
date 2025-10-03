@@ -40,9 +40,8 @@ public class Ruleta {
         }
     }
 
-    // Getters
+    // Getters (historial próximamente a desarrollar)
 
-    // Este getter es necesario si otra clase (Controlador) necesita el historial
     public int getHistorialSize() {
         return historialSize;
     }
