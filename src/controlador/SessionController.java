@@ -1,19 +1,21 @@
 package controlador;
 
-import modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
+import modelo.Usuario; // Asumiendo que usas paquetes
 
 public class SessionController {
 
-    private final List<Usuario> usuarios = new ArrayList<>();
-    private Usuario usuarioActual; // Solo un usuario a la vez
-
+    // --- Patrón Singleton ---
     private static final SessionController INSTANCE = new SessionController();
 
-    // Idealmente, cargar usuarios desde una base de datos o archivo (para después)
+    // --- Modelos y Estado ---
+    private final List<Usuario> usuarios = new ArrayList<>();
+    private Usuario usuarioActual; // Estado de la sesión
 
+    // Constructor privado: Se inicializa solo dentro de la clase
     private SessionController() {
+        // Usuarios hardcodeados para el prototipo
         usuarios.add(new Usuario("donnie", "1234", "Donnie"));
         usuarios.add(new Usuario("admin", "admin", "Administrador"));
     }
@@ -21,6 +23,8 @@ public class SessionController {
     public static SessionController getInstance() {
         return INSTANCE;
     }
+
+    // --- Métodos de Lógica (Control) ---
 
     public Usuario iniciarSesion(String u, String p) {
         for (Usuario usuario : usuarios) {
@@ -30,6 +34,14 @@ public class SessionController {
             }
         }
         return null; // Credenciales incorrectas
+    }
+
+    public Usuario getUsuarioActual() {
+        return usuarioActual;
+    }
+
+    public void cerrarSesion() {
+        usuarioActual = null;
     }
 
     public void registrarUsuario(String u, String p, String n) {
@@ -43,9 +55,5 @@ public class SessionController {
 
     public boolean hayUsuario() {
         return usuarioActual != null;
-    }
-
-    public void cerrarSesion() {
-        usuarioActual = null;
     }
 }

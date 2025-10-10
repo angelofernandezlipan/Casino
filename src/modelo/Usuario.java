@@ -5,13 +5,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class Usuario {
+
+    // Atributos existentes (Encapsulados)
     private String username;
     private String password;
     private String nombre;
 
-    // Implementación de la Asociación: 1 a n con Resultado
+    // <<< CÓDIGO NUEVO (V5): Asociación 1 a muchos con Resultado
     private final List<Resultado> historial = new ArrayList<>();
 
+    // Constructor
     public Usuario(String username, String password, String nombre) {
         this.username = username;
         this.password = password;
@@ -26,16 +29,14 @@ public class Usuario {
         return nombre;
     }
 
+    // <<< CÓDIGO NUEVO (V5): Méthod para agregar el resultado
     public void agregarResultado(Resultado r) {
         historial.add(r);
     }
 
-    public String getUsername() {
-        return username;
-    }
-
+    // <<< CÓDIGO NUEVO (V5): Méthod para recuperar el historial
     public List<Resultado> getHistorial() {
-        // Devuelve una versión inmodificable para proteger la integridad del historial
+        // Devuelve una lista inmodificable para proteger los datos
         return Collections.unmodifiableList(historial);
     }
 }
