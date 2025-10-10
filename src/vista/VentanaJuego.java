@@ -1,7 +1,11 @@
 package vista;
 
+import controlador.SessionController; // Ahora está conectada con controlador/SessionController.java (versión 5)
+import modelo.Resultado; // Lo mismo con su respectivo package
 import modelo.Ruleta;
 import modelo.TipoApuesta;
+import modelo.Usuario; // Lo mismo
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -61,8 +65,6 @@ public class VentanaJuego extends JFrame {
         add(panelPrincipal);
     }
 
-    // Dentro de VentanaJuego.java
-
     private void jugarRonda() {
 
         int monto = 0;
@@ -99,7 +101,26 @@ public class VentanaJuego extends JFrame {
             lblResultado.setText("PERDISTE. Número: " + numeroGirado + ". Saldo: $" + saldo);
         }
 
+        // --- NUEVO CÓDIGO para crear y registrar el Resultado ---
+
+        // 1. Obtener el usuario actual (usando el SessionController)
+        Usuario usuarioActual = SessionController.getInstance().getUsuarioActual();
+
+        // 2. Crear el objeto Resultado
+        Resultado resultadoRonda = new Resultado(
+                numeroGirado,
+                tipoApuestaEnum,
+                acierto,
+                monto,
+                saldo // Se registra el saldo DESPUÉS del cambio
+        );
+
+        // 3. Registrar el resultado en el historial del usuario
+        if (usuarioActual != null) {
+            usuarioActual.agregarResultado(resultadoRonda);
+        }
+        // --------------------------------------------------------
+
         lblSaldo.setText("Saldo: $" + saldo);
-        ruleta.registrarResultado(numeroGirado, tipoApuestaString, acierto);
     }
 }

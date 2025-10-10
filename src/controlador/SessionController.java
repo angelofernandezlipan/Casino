@@ -22,8 +22,6 @@ public class SessionController {
         return INSTANCE;
     }
 
-    // ----------------------------------------------------------------
-
     public Usuario iniciarSesion(String u, String p) {
         for (Usuario usuario : usuarios) {
             if (usuario.validarCredenciales(u, p)) {
