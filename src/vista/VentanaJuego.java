@@ -3,7 +3,6 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 import modelo.Ruleta;
-import modelo.TipoApuesta;
 import modelo.Resultado;
 import modelo.Usuario;
 import controlador.SessionController;
