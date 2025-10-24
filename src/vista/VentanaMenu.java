@@ -2,6 +2,7 @@ package vista;
 
 import javax.swing.*;
 import java.awt.*;
+import controlador.SessionController;
 
 public class VentanaMenu extends JFrame {
 
@@ -24,24 +25,31 @@ public class VentanaMenu extends JFrame {
         JLabel lblBienvenida = new JLabel("Bienvenido/a, " + nombreUsuario, SwingConstants.CENTER);
         lblBienvenida.setFont(new Font("Arial", Font.BOLD, 16));
 
-        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel panelBotones = new JPanel(new GridLayout(4, 1, 10, 10)); // 4 botones ahora
         panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
         JButton btnJugar = new JButton("Jugar Ruleta");
         JButton btnHistorial = new JButton("Historial");
+        JButton btnEstadisticas = new JButton("Estadísticas"); // Nuevo botón (V6)
         JButton btnSalir = new JButton("Cerrar Sesión");
 
         btnJugar.addActionListener(e -> new VentanaJuego(nombreUsuario));
 
-        btnHistorial.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de historial en desarrollo.")); // ESTO SE VA A IR PERO NO SE COMO TODAVI
+        // btnHistorial abre VentanaHistorial (No implementada aquí)
+        btnHistorial.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de Historial en desarrollo."));
+
+        // Botón Estadísticas (V6)
+        btnEstadisticas.addActionListener(e -> new VentanaEstadisticas());
 
         btnSalir.addActionListener(e -> {
+            SessionController.getInstance().cerrarSesion();
             dispose();
             new VentanaLogin();
         });
 
         panelBotones.add(btnJugar);
         panelBotones.add(btnHistorial);
+        panelBotones.add(btnEstadisticas);
         panelBotones.add(btnSalir);
 
         add(lblBienvenida, BorderLayout.NORTH);

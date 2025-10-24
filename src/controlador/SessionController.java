@@ -2,20 +2,18 @@ package controlador;
 
 import java.util.ArrayList;
 import java.util.List;
-import modelo.Usuario; // Asumiendo que usas paquetes
+import modelo.Usuario;
 
 public class SessionController {
 
-    // --- Patrón Singleton ---
+    // Patrón Singleton: Única instancia centralizada (V4)
     private static final SessionController INSTANCE = new SessionController();
 
-    // --- Modelos y Estado ---
     private final List<Usuario> usuarios = new ArrayList<>();
-    private Usuario usuarioActual; // Estado de la sesión
+    private Usuario usuarioActual;
 
-    // Constructor privado: Se inicializa solo dentro de la clase
     private SessionController() {
-        // Usuarios hardcodeados para el prototipo
+        // Carga de usuarios hardcodeados
         usuarios.add(new Usuario("donnie", "1234", "Donnie"));
         usuarios.add(new Usuario("admin", "admin", "Administrador"));
     }
@@ -24,8 +22,7 @@ public class SessionController {
         return INSTANCE;
     }
 
-    // --- Métodos de Lógica (Control) ---
-
+    // Métodos de Lógica (Control)
     public Usuario iniciarSesion(String u, String p) {
         for (Usuario usuario : usuarios) {
             if (usuario.validarCredenciales(u, p)) {
@@ -33,27 +30,14 @@ public class SessionController {
                 return usuario;
             }
         }
-        return null; // Credenciales incorrectas
+        return null;
     }
 
-    public Usuario getUsuarioActual() {
+    public Usuario getUsuarioActual() { // Necesario para VentanaJuego y Estadisticas
         return usuarioActual;
     }
 
     public void cerrarSesion() {
         usuarioActual = null;
-    }
-
-    public void registrarUsuario(String u, String p, String n) {
-        Usuario nuevoUsuario = new Usuario(u, p, n);
-        usuarios.add(nuevoUsuario);
-    }
-
-    public String getNombreUsuario() {
-        return hayUsuario() ? usuarioActual.getNombre() : "";
-    }
-
-    public boolean hayUsuario() {
-        return usuarioActual != null;
     }
 }

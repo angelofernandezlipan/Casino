@@ -6,18 +6,15 @@ import java.util.List;
 
 public class Ruleta {
 
-    // Atributos Encapsulados (PRIVATE)
+    // Lógica pura de juego (sin atributos de historial)
     private final List<Integer> numerosRojos = Arrays.asList(1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36);
     private final Random rng = new Random();
 
-    // NOTA: Eliminar todos los arreglos y métodos relacionados con el historial
-    // (historialNumeros, historialApuestas, registrarResultado, etc.)
-
     public int girarRuleta() {
-        return rng.nextInt(37); // Números de 0 a 36
+        return rng.nextInt(37);
     }
 
-    // El méthod ahora recibe el ENUM TipoApuesta
+    // Usa el ENUM TipoApuesta (V4)
     public boolean evaluarResultado(int numero, TipoApuesta tipoApuesta) {
         if (numero == 0) return false;
 
@@ -28,4 +25,6 @@ public class Ruleta {
             case IMPAR -> numero % 2 != 0;
         };
     }
+
+    // NO CONTIENE registrarResultado() ni arrays de historial (V5)
 }

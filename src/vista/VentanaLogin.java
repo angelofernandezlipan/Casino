@@ -1,18 +1,27 @@
 package vista;
 
-import controlador.SessionController;
 import javax.swing.*;
 import java.awt.*;
-import controlador.SessionController; // Importar el controlador
-import modelo.Usuario; // Importar el modelo
+import controlador.SessionController;
+import modelo.Usuario;
 
 public class VentanaLogin extends JFrame {
 
-    // Variables declaradas a nivel de CLASE (para corregir el error de alcance)
     private JTextField txtUsuario;
     private JPasswordField txtClave;
     private JButton btnIngresar;
     private JButton btnRegistrar;
+
+    public VentanaLogin() {
+        super("Login - Casino Black Cat");
+
+        initComponents();
+        setupLayout();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
 
     private void initComponents() {
         txtUsuario = new JTextField(15);
@@ -46,7 +55,6 @@ public class VentanaLogin extends JFrame {
         String user = txtUsuario.getText();
         String pass = new String(txtClave.getPassword());
 
-        // La VISTA llama al CONTROLADOR
         SessionController controller = SessionController.getInstance();
         Usuario usuarioLogeado = controller.iniciarSesion(user, pass);
 
@@ -58,6 +66,5 @@ public class VentanaLogin extends JFrame {
             JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    // IMPORTANTE: Eliminar la lista de usuarios y el méthod validarCredenciales() de esta clase.
+    // ELIMINAR lista de usuarios y método validarCredenciales()
 }
