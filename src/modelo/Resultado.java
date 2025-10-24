@@ -4,17 +4,17 @@ public class Resultado {
 
     // Atributos privados y finales (Inmutabilidad y Encapsulamiento)
     private final int numero;
-    private final TipoApuesta tipoApuesta;
+    private final String tipoApuesta; // (V7)
     private final boolean acierto;
     private final int montoApostado;
     private final int saldoFinal;
 
     // Constructor completo
-    public Resultado(int numero, TipoApuesta tipoApuesta, boolean acierto, int montoApostado, int saldoFinal) {
+    public Resultado(int numero, ApuestaBase apuesta, boolean acierto, int saldoFinal) {
         this.numero = numero;
-        this.tipoApuesta = tipoApuesta;
+        this.tipoApuesta = apuesta.getEtiqueta();
         this.acierto = acierto;
-        this.montoApostado = montoApostado;
+        this.montoApostado = apuesta.getMontoApostado;
         this.saldoFinal = saldoFinal;
     }
 

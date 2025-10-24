@@ -14,17 +14,14 @@ public class Ruleta {
         return rng.nextInt(37);
     }
 
-    // Usa el ENUM TipoApuesta (V4)
-    public boolean evaluarResultado(int numero, TipoApuesta tipoApuesta) {
-        if (numero == 0) return false;
-
-        return switch (tipoApuesta) {
-            case ROJO -> numerosRojos.contains(numero);
-            case NEGRO -> !numerosRojos.contains(numero) && numero != 0;
-            case PAR -> numero % 2 == 0;
-            case IMPAR -> numero % 2 != 0;
-        };
+    public String colorDe(int numero) {
+        if (numero == 0) {
+            return "Verde"; // 0 es Verde
+        }
+        return numerosRojos.contains(numero) ? "Rojo" : "Negro";
     }
 
     // NO CONTIENE registrarResultado() ni arrays de historial (V5)
+    // Se eliminó evaluarResultado(int numero, TipoApuesta tipoApuesta)
+    // Su lógica ahora está distribuida en las subclases de ApuestaBase GRACIAS A QUE DESCUBRIMOS LA HERENCIA (V7).
 }
