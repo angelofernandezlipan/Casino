@@ -43,7 +43,7 @@ public class SessionController {
     }
 
     public void cerrarSesion() {
-        guardadDatos();
+        guardarDatos();
         usuarioActual = null;
     }
 
@@ -61,7 +61,7 @@ public class SessionController {
         }
     }
 
-    private void guardarDatos() {
+    public void guardarDatos() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARCHIVO_DATOS))) {
             oos.writeObject(usuarios);
             System.out.println("Datos guardados en " + ARCHIVO_DATOS);
