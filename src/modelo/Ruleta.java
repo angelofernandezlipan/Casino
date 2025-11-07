@@ -21,7 +21,7 @@ public class Ruleta {
         return numerosRojos.contains(numero) ? "Rojo" : "Negro";
     }
 
-    // NO CONTIENE registrarResultado() ni arrays de historial (V5)
-    // Se eliminó evaluarResultado(int numero, TipoApuesta tipoApuesta)
+    // NO CONTIENE registrarResultado() ni arrays de historial (Versión 5)
+    // Se eliminó evaluarResultado(int número, TipoApuesta tipoApuesta)
     // Su lógica ahora está distribuida en las subclases de ApuestaBase GRACIAS A QUE DESCUBRIMOS LA HERENCIA (V7).
 }

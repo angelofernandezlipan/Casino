@@ -5,6 +5,7 @@ import java.awt.*;
 import modelo.Ruleta;
 import modelo.Resultado;
 import modelo.Usuario;
+import modelo.*;
 import controlador.SessionController;
 
 public class VentanaJuego extends JFrame {
@@ -34,7 +35,7 @@ public class VentanaJuego extends JFrame {
 
     private void initComponents() {
         txtMonto = new JTextField(10);
-        cmbTipoApuesta = new JComboBox<>(new String[]{"ROJO", "NEGRO", "PAR", "IMPAR"});
+        cmbTipoApuesta = new JComboBox<>(new String[]{"Rojo", "Negro", "Par", "Impar"});
         lblSaldo = new JLabel("Saldo: $" + saldo, SwingConstants.CENTER);
         lblResultado = new JLabel("Bienvenido, " + nombreJugador + ". Listo para jugar!", SwingConstants.CENTER);
         btnGirar = new JButton("Girar");
@@ -64,68 +65,92 @@ public class VentanaJuego extends JFrame {
         add(panelPrincipal);
     }
 
+    // Crear objeto Apuesta correcto
+    private ApuestaBase crearApuestaDesdeSeleccion(int monto) {
+        String seleccion = (String) cmbTipoApuesta.getSelectedItem();
+
+        switch (seleccion) {
+            case "Rojo":
+                return new ApuestaRojo(monto);
+            case "Negro":
+                return new ApuestaNegro(monto);
+            case "Par":
+                return new ApuestaPar(monto);
+            case "Impar":
+                return new ApuestaImpar(monto);
+            default:
+                throw new IllegalArgumentException("Tipo de apuesta no válido");
+        }
+    }
+
     private void jugarRonda() {
 
         int monto = 0;
-        String tipoApuestaString = "";
-        TipoApuesta tipoApuestaEnum = null;
+        ApuestaBase apuesta; // La variable ahora es del tipo de la superclase
 
         try {
             monto = Integer.parseInt(txtMonto.getText());
-            tipoApuestaString = (String) cmbTipoApuesta.getSelectedItem();
-            tipoApuestaEnum = TipoApuesta.valueOf(tipoApuestaString);
+            // 1. Crea el objeto polimórfico
+            apuesta = crearApuestaDesdeSeleccion(monto);
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un monto válido (solo números).", "Error de Apuesta", JOptionPane.ERROR_MESSAGE);
-            return;
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(this, "Error: Tipo de apuesta no reconocido.", "Error Interno", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Monto inválido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (monto <= 0 || monto > saldo) {
-            JOptionPane.showMessageDialog(this, "Monto inválido o insuficiente.", "Error de Saldo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Monto inválido o insuficiente.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // LÓGICA DEL JUEGO
+        // Lógica polimórfica
+        // 2. Ruleta calcula el estado
         int numeroGirado = ruleta.girarRuleta();
-        boolean acierto = ruleta.evaluarResultado(numeroGirado, tipoApuestaEnum);
+        String colorGirado = ruleta.colorDe(numeroGirado);
 
-        // Actualización de Saldo
+        // 3. El objeto apuesta determina si acertó (Polimorfismo)
+        boolean acierto = apuesta.acierta(numeroGirado, colorGirado);
+
+        // 4. Actualización de Saldo
         if (acierto) {
-            saldo += monto;
+            saldo += apuesta.getMontoApostado();
         } else {
-            saldo -= monto;
+            saldo -= apuesta.getMontoApostado();
         }
 
-        // REGISTRO DEL RESULTADO (Asociación y Dependencia V5)
+        // 5. Registro del resultado (Versión 5)
         SessionController controller = SessionController.getInstance();
         Usuario usuarioActual = controller.getUsuarioActual();
 
+        // El constructor de Resultado ahora toma el objeto ApuestaBase
         Resultado resultadoRonda = new Resultado(
                 numeroGirado,
-                tipoApuestaEnum,
+                apuesta, // Pasa el objeto apuesta completo
                 acierto,
-                monto,
                 saldo
         );
 
         if (usuarioActual != null) {
             usuarioActual.agregarResultado(resultadoRonda);
         }
+        // Acá se acaba la lógica polimórfica
 
-        // ACTUALIZACIÓN DE LA VISTA
+        // 6. Se actualiza la vista
         String mensaje = acierto ? "¡GANASTE!" : "PERDISTE";
-        lblResultado.setText(String.format("%s. Número: %d (%s). Saldo: $%d", mensaje, numeroGirado, tipoApuestaEnum.name(), saldo));
+        lblResultado.setText(String.format("%s. Salió el %d %s. Saldo: $%d", mensaje, numeroGirado, colorGirado, saldo));
         lblSaldo.setText("Saldo: $" + saldo);
 
-        // Comprobar saldo
         if (saldo <= 0) {
-            JOptionPane.showMessageDialog(this, "¡Te has quedado sin saldo! Cerrando sesión.", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-            controller.cerrarSesion();
-            dispose();
-            new VentanaLogin(); // Regresa al Login
+            JOptionPane.showMessageDialog(this,
+                    "¡Te has quedado sin saldo! Cerrando sesión.",
+                    "Game Over",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            SessionController.getInstance().cerrarSesion();
+
+            dispose(); // Cerrar
+
+            new VentanaLogin();
         }
     }
 }

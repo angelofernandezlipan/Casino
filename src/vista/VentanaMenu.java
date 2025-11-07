@@ -13,7 +13,20 @@ public class VentanaMenu extends JFrame {
         this.nombreUsuario = nombreUsuario;
 
         initComponents();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Guardar datos antes de salir
+                SessionController.getInstance().guardarDatos();
+                System.exit(0); // Cerrar la aplicación
+            }
+        });
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);

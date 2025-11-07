@@ -3,8 +3,9 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.io.Serializable;
 
-public class Usuario {
+public class Usuario implements Serializable {
 
     // Atributos privados (Encapsulamiento V4)
     private String username;
