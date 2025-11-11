@@ -4,36 +4,38 @@ import java.util.List;
 
 public class Estadisticas {
 
-    private final List<Resultado> historial;
+    private final IRepositorioResultados repositorio;
 
-    // Constructor que recibe la lista del usuario
-    public Estadisticas(List<Resultado> historial) {
-        this.historial = historial;
+    // Constructor que recibe la lista del usuario (En la V8 SE CAMBIÓ EL PARÁMETRO)
+    public Estadisticas(IRepositorioResultados repositorio) {
+        this.repositorio = repositorio;
+    }
+
+    private List<Resultado> getHistorial() {
+        return repositorio.obtenerTodos();
     }
 
     public int getTotalJugadas() {
-        return historial.size(); //[cite_start]// total Jugadas [cite: 20]
+        return getHistorial().size();
     }
 
     public int getTotalAciertos() {
         // Cuenta los resultados donde el booleano 'acierto' es verdadero
-        return (int) historial.stream()
+        return (int) getHistorial().stream()
                 .filter(Resultado::isAcierto)
-                .count(); //[cite_start]// victorias [cite: 21]
+                .count();
     }
 
     public double getPorcentajeAciertos() {
         int total = getTotalJugadas();
         if (total == 0) return 0.0;
-
-        //[cite_start]// porcentajeVictorias [cite: 21]
         return (double) getTotalAciertos() / total * 100.0;
     }
 
     public int getGananciaNeta() {
         int ganancia = 0;
 
-        for (Resultado r : historial) {
+        for (Resultado r : getHistorial()) {
             int monto = r.getMontoApostado();
             if (r.isAcierto()) {
                 ganancia += monto;

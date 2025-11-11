@@ -3,7 +3,7 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 import modelo.Estadisticas;
-import modelo.Usuario;
+import modelo.IRepositorioResultados; // V8
 import controlador.SessionController;
 
 public class VentanaEstadisticas extends JFrame {
@@ -11,20 +11,22 @@ public class VentanaEstadisticas extends JFrame {
     public VentanaEstadisticas() {
         super("Estadísticas del Jugador");
 
-        Usuario usuarioActual = SessionController.getInstance().getUsuarioActual();
-        if (usuarioActual == null) {
-            JOptionPane.showMessageDialog(this, "Debe iniciar sesión para ver las estadísticas.", "Error", JOptionPane.ERROR_MESSAGE);
+        // V8: Obtiene el repositorio del controlador
+        IRepositorioResultados repo = SessionController.getInstance().getRepositorio();
+
+        if (repo == null) {
+            JOptionPane.showMessageDialog(this, "Error: No se pudo cargar el repositorio de historial.", "Error", JOptionPane.ERROR_MESSAGE);
             dispose();
             return;
         }
 
-        // Crear el Modelo Estadisticas con el historial del usuario (V6)
-        Estadisticas stats = new Estadisticas(usuarioActual.getHistorial());
+        // V8: El modelo Estadisticas ahora recibe el Repositorio
+        Estadisticas stats = new Estadisticas(repo);
 
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        //[cite_start]// Mostrar las métricas calculadas [cite: 17, 19]
+        // Muestra las métricas calculadas
         panel.add(new JLabel("Jugadas Totales:"));
         panel.add(new JLabel(String.valueOf(stats.getTotalJugadas())));
 
@@ -36,8 +38,6 @@ public class VentanaEstadisticas extends JFrame {
 
         panel.add(new JLabel("Ganancia Neta:"));
         panel.add(new JLabel(String.format("$%d", stats.getGananciaNeta())));
-
-        //[cite_start]// NOTA: Métricas como rachaMaxima y tipoMasJugado requieren lógica adicional [cite: 22, 23]
 
         add(panel);
 

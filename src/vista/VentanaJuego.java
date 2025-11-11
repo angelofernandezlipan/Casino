@@ -129,10 +129,7 @@ public class VentanaJuego extends JFrame {
                 acierto,
                 saldo
         );
-
-        if (usuarioActual != null) {
-            usuarioActual.agregarResultado(resultadoRonda);
-        }
+        controller.getRepositorio().guardar(resultadoRonda);
         // Acá se acaba la lógica polimórfica
 
         // 6. Se actualiza la vista

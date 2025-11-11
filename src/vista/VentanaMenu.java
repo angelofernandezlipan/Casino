@@ -13,17 +13,15 @@ public class VentanaMenu extends JFrame {
         this.nombreUsuario = nombreUsuario;
 
         initComponents();
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
 
+        // V7/V8: Asegura que la persistencia se ejecute al cerrar
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                // Guardar datos antes de salir
-                SessionController.getInstance().guardarDatos();
-                System.exit(0); // Cerrar la aplicación
+                // V8: cerrarSesion() guarda tanto usuarios como historial
+                SessionController.getInstance().cerrarSesion();
+                System.exit(0); // Cierra la aplicación
             }
         });
 
@@ -38,23 +36,26 @@ public class VentanaMenu extends JFrame {
         JLabel lblBienvenida = new JLabel("Bienvenido/a, " + nombreUsuario, SwingConstants.CENTER);
         lblBienvenida.setFont(new Font("Arial", Font.BOLD, 16));
 
-        JPanel panelBotones = new JPanel(new GridLayout(4, 1, 10, 10)); // 4 botones ahora
+        JPanel panelBotones = new JPanel(new GridLayout(4, 1, 10, 10));
         panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
         JButton btnJugar = new JButton("Jugar Ruleta");
-        JButton btnHistorial = new JButton("Historial");
-        JButton btnEstadisticas = new JButton("Estadísticas"); // Nuevo botón (V6)
+        JButton btnHistorial = new JButton("Historial"); // (Asume VentanaHistorial V5)
+        JButton btnEstadisticas = new JButton("Estadísticas"); // (V6)
         JButton btnSalir = new JButton("Cerrar Sesión");
 
         btnJugar.addActionListener(e -> new VentanaJuego(nombreUsuario));
 
-        // btnHistorial abre VentanaHistorial (No implementada aquí)
-        btnHistorial.addActionListener(e -> JOptionPane.showMessageDialog(this, "Funcionalidad de Historial en desarrollo."));
+        btnHistorial.addActionListener(e -> {
+            // Implementación de VentanaHistorial (V5)
+            JOptionPane.showMessageDialog(this, "Funcionalidad de Historial en desarrollo.");
+        });
 
-        // Botón Estadísticas (V6)
+        // V6: Llama a la ventana de estadísticas
         btnEstadisticas.addActionListener(e -> new VentanaEstadisticas());
 
         btnSalir.addActionListener(e -> {
+            // V8: Cierra la sesión (guarda datos) antes de ir al login
             SessionController.getInstance().cerrarSesion();
             dispose();
             new VentanaLogin();
