@@ -91,7 +91,7 @@ public class VentanaJuego extends JFrame {
             };
 
             // 2. DELEGAR AL MODELO (V9)
-            // El método jugar() de Ruleta ahora valida el saldo y la apuesta.
+            // El méthodo jugar() de Ruleta ahora valida el saldo y la apuesta.
             // Si algo está mal, lanzará una excepción que atrapamos abajo.
             Resultado resultadoRonda = ruleta.jugar(apuesta);
 
