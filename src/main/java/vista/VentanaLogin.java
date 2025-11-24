@@ -55,7 +55,7 @@ public class VentanaLogin extends JFrame {
         String user = txtUsuario.getText();
         String pass = new String(txtClave.getPassword());
 
-        // VALIDACIÓN (Caso 1): Campos vacíos
+        // Validación (Caso 1): Campos vacíos
         // Esto es flujo normal, se maneja con IF, no con excepciones.
         if (user.isBlank() || pass.isBlank()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -74,5 +74,5 @@ public class VentanaLogin extends JFrame {
             JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    // ELIMINAR lista de usuarios y méthodo validarCredenciales()
+    // Eliminar lista de usuarios y méthodo validarCredenciales()
 }

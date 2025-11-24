@@ -3,7 +3,6 @@ package controlador;
 import modelo.Usuario;
 import modelo.IRepositorioResultados;
 import modelo.RepositorioArchivo;
-import modelo.RepositorioEnMemoria; // Opcional, para pruebas
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,18 +11,18 @@ import java.util.List;
 /**
  * Gestiona la sesión del usuario y la persistencia de datos.
  * Implementa el patrón Singleton.
- * V8: Desacopla el historial del usuario e inyecta el repositorio.
+ * De la versión 8: Desacopla el historial del usuario e inyecta el repositorio.
  */
 public class SessionController {
 
-    // --- Singleton ---
+    // Singleton
     private static final SessionController INSTANCE = new SessionController();
 
-    // --- Estado de Persistencia V7 (Usuarios) ---
+    // Estado de Persistencia V7 (Usuarios)
     private List<Usuario> usuarios = new ArrayList<>();
     private static final String ARCHIVO_USUARIOS = "usuarios.dat";
 
-    // --- Estado de Sesión V8 (Historial) ---
+    // Estado de Sesión V8 (Historial)
     private Usuario usuarioActual;
     private IRepositorioResultados repositorioResultados; // Depende de la abstracción
 
@@ -82,7 +81,7 @@ public class SessionController {
         repositorioResultados = null;
     }
 
-    // --- Getters de Sesión ---
+    // Getters de Sesión
 
     public Usuario getUsuarioActual() {
         return usuarioActual;
@@ -92,7 +91,7 @@ public class SessionController {
         return repositorioResultados;
     }
 
-    // --- Métodos de Persistencia de USUARIOS (V7) ---
+    // Métodos de Persistencia de USUARIOS (V7)
 
     @SuppressWarnings("unchecked")
     private void cargarUsuarios() {

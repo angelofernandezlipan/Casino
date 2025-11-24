@@ -17,9 +17,8 @@ public abstract class ApuestaBase {
     // Obliga a las subclases a implementar su propia lógica de acierto
     public abstract boolean acierta(int numero, String color);
 
-    // --- GETTERS ---
+    // GETTERS
     // Métodos públicos para que otras clases (como Resultado) lean los datos.
-    // Este es el méthodo que el compilador no encontraba.
 
     public int getMontoApostado() {
         return montoApostado;

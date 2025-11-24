@@ -23,7 +23,7 @@ public class Resultado implements Serializable {
         this.montoApostado = apuesta.getMontoApostado();
     }
 
-    // --- GETTERS ---
+    // Getters
 
     public int getNumero() { return numero; }
     public String getTipoApuesta() { return tipoApuesta; }

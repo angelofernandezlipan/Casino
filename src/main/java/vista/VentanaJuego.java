@@ -9,7 +9,7 @@ import controlador.SessionController; // Para guardar el historial
 
 public class VentanaJuego extends JFrame {
 
-    // EL MODELO (Ahora es la única fuente de verdad para el saldo)
+    // El Modelo (Ahora es la única fuente de verdad para el saldo)
     private final Ruleta ruleta;
 
     // Componentes de la Vista
@@ -25,11 +25,10 @@ public class VentanaJuego extends JFrame {
         super("Ruleta - Casino Black Cat");
         this.nombreJugador = nombreJugador;
 
-        // 1. INICIALIZAR EL MODELO PRIMERO
-        // Definimos un saldo inicial de 1000 para la sesión
+        // 1. Inicializar el modelo. Saldo inicial de 1000
         this.ruleta = new Ruleta(1000);
 
-        // 2. INICIALIZAR COMPONENTES (Usando datos del modelo)
+        // 2. Inicializar componentes (usando datos del modelo)
         initComponents();
         setupLayout();
 
@@ -119,7 +118,7 @@ public class VentanaJuego extends JFrame {
             // Error esperado de entrada
             JOptionPane.showMessageDialog(this, "El monto debe ser un número válido.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            // EXCEPCIÓN NO CONTROLADA (Caso 6): Red de seguridad global
+            // Excepción no controlada: Red de seguridad global
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
