@@ -55,6 +55,13 @@ public class VentanaLogin extends JFrame {
         String user = txtUsuario.getText();
         String pass = new String(txtClave.getPassword());
 
+        // VALIDACIÓN (Caso 1): Campos vacíos
+        // Esto es flujo normal, se maneja con IF, no con excepciones.
+        if (user.isBlank() || pass.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return; // Detener flujo aquí
+        }
+
         SessionController controller = SessionController.getInstance();
         Usuario usuarioLogeado = controller.iniciarSesion(user, pass);
 
@@ -63,8 +70,9 @@ public class VentanaLogin extends JFrame {
             new VentanaMenu(usuarioLogeado.getNombre());
             dispose();
         } else {
+            // Validación de negocio (Credenciales)
             JOptionPane.showMessageDialog(this, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    // ELIMINAR lista de usuarios y método validarCredenciales()
+    // ELIMINAR lista de usuarios y méthodo validarCredenciales()
 }

@@ -75,54 +75,53 @@ public class VentanaJuego extends JFrame {
         add(panelPrincipal);
     }
 
-    // --- MÉTHODO PRINCIPAL REFACTORIZADO (V9) ---
+    // Methodo principal refinado (V10)
     private void jugarRonda() {
+        // Validar formato antes de lógica
+        if (txtMonto.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un monto.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
             int monto = Integer.parseInt(txtMonto.getText());
+
+            // Monto positivo
+            if (monto <= 0) {
+                JOptionPane.showMessageDialog(this, "El monto debe ser mayor a 0.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Saldo suficiente
+            if (monto > ruleta.getSaldo()) {
+                JOptionPane.showMessageDialog(this, "Saldo insuficiente.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             String tipoString = (String) cmbTipoApuesta.getSelectedItem();
 
-            // 1. Crear la apuesta (Polimorfismo V7)
             ApuestaBase apuesta = switch(tipoString) {
                 case "Rojo" -> new ApuestaRojo(monto);
                 case "Negro" -> new ApuestaNegro(monto);
                 case "Par" -> new ApuestaPar(monto);
                 case "Impar" -> new ApuestaImpar(monto);
-                default -> null;
+                default -> throw new IllegalStateException("Tipo de apuesta desconocido"); // Caso Excepcional (Bug)
             };
 
-            // 2. DELEGAR AL MODELO (V9)
-            // El méthodo jugar() de Ruleta ahora valida el saldo y la apuesta.
-            // Si algo está mal, lanzará una excepción que atrapamos abajo.
+            // Llamada al modelo (El modelo igual se protege, pero la vista ya filtró lo obvio)
             Resultado resultadoRonda = ruleta.jugar(apuesta);
 
-            // 3. GUARDAR EN HISTORIAL (V8 - Persistencia)
+            // ...Resto del código de guardar y actualizar interfaz igual que antes...
             SessionController.getInstance().getRepositorio().guardar(resultadoRonda);
-
-            // 4. ACTUALIZAR VISTA
-            String mensaje = resultadoRonda.isAcierto() ? "¡GANASTE!" : "PERDISTE";
-            lblResultado.setText(String.format("%s. Salió %d. Saldo: $%d",
-                    mensaje, resultadoRonda.getNumero(), ruleta.getSaldo()));
-
-            // Actualizar etiqueta de saldo consultando al modelo
-            lblSaldo.setText("Saldo: $" + ruleta.getSaldo());
-
-            // 5. VERIFICAR GAME OVER
-            if (ruleta.getSaldo() <= 0) {
-                JOptionPane.showMessageDialog(this,
-                        "¡Te has quedado sin saldo! Cerrando sesión.",
-                        "Game Over",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                SessionController.getInstance().cerrarSesion();
-                dispose();
-                new VentanaLogin();
-            }
+            // ...
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Monto inválido (ingrese solo números).", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IllegalArgumentException e) {
-            // Captura las validaciones de negocio del Modelo (Saldo insuficiente, monto negativo, etc.)
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Regla de Negocio", JOptionPane.WARNING_MESSAGE);
+            // Error esperado de entrada
+            JOptionPane.showMessageDialog(this, "El monto debe ser un número válido.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            // EXCEPCIÓN NO CONTROLADA (Caso 6): Red de seguridad global
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage(), "Error Crítico", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -113,4 +113,24 @@ public class SessionController {
             System.out.println("Error al guardar usuarios: " + e.getMessage());
         }
     }
+
+    // Méthod nuevo V10
+
+    public void registrarUsuario(String username, String password, String nombre) {
+        // VALIDACIÓN DE ENTRADA (Flujo normal)
+        if (username == null || password == null || nombre == null) {
+            throw new IllegalArgumentException("Datos no pueden ser nulos");
+        }
+
+        // EXCEPCIÓN DE DOMINIO (Caso 6): Regla de negocio violada
+        for (Usuario u : usuarios) {
+            if (u.getUsername().equals(username)) {
+                throw new IllegalStateException("El usuario ya está registrado");
+            }
+        }
+
+        Usuario nuevo = new Usuario(username, password, nombre);
+        usuarios.add(nuevo);
+        guardarUsuarios();
+    }
 }

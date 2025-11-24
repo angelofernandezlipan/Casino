@@ -26,14 +26,33 @@ public class RepositorioArchivo implements IRepositorioResultados {
     @Override
     @SuppressWarnings("unchecked")
     public void cargar() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            historial = (List<Resultado>) ois.readObject();
-            System.out.println("Historial cargado desde: " + fileName);
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encontró archivo de historial, se creará uno nuevo: " + fileName);
+        File archivo = new File(fileName);
+
+        // VALIDACIÓN (Caso 4): Verificar existencia antes de intentar abrir
+        if (!archivo.exists() || !archivo.isFile()) {
+            System.out.println("El archivo no existe o no es válido. Se iniciará vacío: " + fileName);
             historial = new ArrayList<>();
+            return; // Salida temprana (Flujo normal)
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
+            Object data = ois.readObject();
+
+            // Validación de tipo seguro
+            if (data instanceof List<?>) {
+                historial = (List<Resultado>) data;
+                System.out.println("Historial cargado correctamente: " + fileName);
+            } else {
+                System.out.println("El archivo tiene un formato incorrecto.");
+                historial = new ArrayList<>();
+            }
+
+        } catch (FileNotFoundException e) {
+            // Esto teóricamente no debería pasar gracias al if(exists), pero Java obliga al catch
+            System.err.println("Error inesperado: Archivo no encontrado.");
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error al cargar historial: " + e.getMessage());
+            // EXCEPCIÓN (Caso 7): Si el archivo está corrupto a nivel binario, reseteamos
+            System.err.println("Error crítico leyendo el archivo (Corrupto): " + e.getMessage());
             historial = new ArrayList<>();
         }
     }
@@ -42,9 +61,10 @@ public class RepositorioArchivo implements IRepositorioResultados {
     public void persistir() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(historial);
-            System.out.println("Historial guardado en: " + fileName);
         } catch (IOException e) {
-            System.out.println("Error al guardar historial: " + e.getMessage());
+            // EXCEPCIÓN: Fallo de disco o permisos (Caso 4)
+            System.err.println("Error crítico guardando el archivo: " + e.getMessage());
+            // Aquí sí podríamos lanzar una RuntimeException si quisiéramos detener el programa
         }
     }
 }
